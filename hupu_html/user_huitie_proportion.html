@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+
+</head>
+<body>
+    <div id="1f512bd218e041edb1055e2945036097" style="width:900px; height:500px;"></div>
+    <script>
+        var chart_1f512bd218e041edb1055e2945036097 = echarts.init(
+            document.getElementById('1f512bd218e041edb1055e2945036097'), 'white', {renderer: 'canvas'});
+        var option_1f512bd218e041edb1055e2945036097 = {
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597"
+    ],
+    "series": [
+        {
+            "type": "pie",
+            "clockwise": true,
+            "data": [
+                {
+                    "name": "NBA \u8bba\u575b",
+                    "value": 14203373
+                },
+                {
+                    "name": "CBA \u8bba\u575b",
+                    "value": 946049
+                },
+                {
+                    "name": "\u56fd\u9645\u8db3\u7403\u8bba\u575b",
+                    "value": 2118493
+                },
+                {
+                    "name": "\u4e2d\u56fd\u8db3\u7403\u8bba\u575b",
+                    "value": 2420
+                },
+                {
+                    "name": "\u6b65\u884c\u8857",
+                    "value": 17326253
+                },
+                {
+                    "name": "\u6e38\u620f\u7535\u7ade",
+                    "value": 4408895
+                },
+                {
+                    "name": "\u81ea\u5efa\u677f\u5757",
+                    "value": 101901
+                },
+                {
+                    "name": "\u8fd0\u52a8\u88c5\u5907",
+                    "value": 1002909
+                },
+                {
+                    "name": "\u7efc\u5408\u4f53\u80b2",
+                    "value": 195300
+                },
+                {
+                    "name": "\u864e\u6251\u793e\u56e2",
+                    "value": 1696
+                },
+                {
+                    "name": "\u7ad9\u52a1\u7ba1\u7406",
+                    "value": 130325
+                }
+            ],
+            "radius": [
+                "40%",
+                "75%"
+            ],
+            "center": [
+                "50%",
+                "50%"
+            ],
+            "label": {
+                "show": true,
+                "position": "top",
+                "margin": 8,
+                "formatter": "{b}: {c}"
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "NBA \u8bba\u575b",
+                "CBA \u8bba\u575b",
+                "\u56fd\u9645\u8db3\u7403\u8bba\u575b",
+                "\u4e2d\u56fd\u8db3\u7403\u8bba\u575b",
+                "\u6b65\u884c\u8857",
+                "\u6e38\u620f\u7535\u7ade",
+                "\u81ea\u5efa\u677f\u5757",
+                "\u8fd0\u52a8\u88c5\u5907",
+                "\u7efc\u5408\u4f53\u80b2",
+                "\u864e\u6251\u793e\u56e2",
+                "\u7ad9\u52a1\u7ba1\u7406"
+            ],
+            "selected": {},
+            "show": true,
+            "left": "2%",
+            "top": "15%",
+            "orient": "vertical"
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0
+    },
+    "title": [
+        {
+            "text": "\u864e\u6251\u7528\u6237\u56de\u5e16\u6570\u5360\u6bd4"
+        }
+    ],
+    "toolbox": {
+        "show": true,
+        "orient": "horizontal",
+        "itemSize": 15,
+        "itemGap": 10,
+        "left": "80%",
+        "feature": {
+            "saveAsImage": {
+                "show": true,
+                "title": "save as image",
+                "type": "png"
+            },
+            "restore": {
+                "show": true,
+                "title": "restore"
+            },
+            "dataView": {
+                "show": true,
+                "title": "data view",
+                "readOnly": false
+            },
+            "dataZoom": {
+                "show": true,
+                "title": {
+                    "zoom": "data zoom",
+                    "back": "data zoom restore"
+                }
+            }
+        }
+    }
+};
+        chart_1f512bd218e041edb1055e2945036097.setOption(option_1f512bd218e041edb1055e2945036097);
+    </script>
+</body>
+</html>
