@@ -38,7 +38,7 @@
 * 虎扑各板块发帖占比图
 ![publish](hupu_pic/虎扑板块占比.png)<br>
 * 虎扑性别占比图
-![publish](hupu_pic/用户性别占比.png)<br>
+![publish](hupu_pic/虎扑用户性别占比.png)<br>
 * 虎扑24小时发帖变化图
 ![publish](hupu_pic/一天内发帖变化图.png)<br>
 * 虎扑声望前50图
