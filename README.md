@@ -36,32 +36,32 @@
 ### 如何跑起来
 1. 在你想要放置本项目的文件夹下使用
 
-    git clone https://github.com/spiderbeg/hupu_data.git
+        git clone https://github.com/spiderbeg/hupu_data.git
     
 将本项目复制文件夹中。
 
 2. 首先运行爬虫代码 **plates_list.py**, 代码中的 classfy 表文件，我将以 json 序列化文件提供；板块信息抓取完毕，接下来根据标准选择自己需求范围的数据，本次项目需求是 抓取回帖 200 以上或浏览 5w 以上的帖子进行分析；代码如下：
 
-    import pymongo
-    def get_ready(ch='plates',dbname='hupu'):
-        '''数据库调用'''
-        global mycol, myclient,myhp
-        myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-        mydb = myclient[dbname]
-        mycol = mydb[ch]
-        myhp = mydb['posts_list']
-    get_ready()
-    ss = mycol.find({})
-    reply = [0]
-    r,v = 0,0
-    for i,s in enumerate(ss): 
-        if int(s['reply'])>=200 or int(s['view'])>=50000:
-            s.pop('_id')
-            myhp.insert_one(s)
+        import pymongo
+        def get_ready(ch='plates',dbname='hupu'):
+            '''数据库调用'''
+            global mycol, myclient,myhp
+            myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+            mydb = myclient[dbname]
+            mycol = mydb[ch]
+            myhp = mydb['posts_list']
+        get_ready()
+        ss = mycol.find({})
+        reply = [0]
+        r,v = 0,0
+        for i,s in enumerate(ss): 
+            if int(s['reply'])>=200 or int(s['view'])>=50000:
+                s.pop('_id')
+                myhp.insert_one(s)
             
 3. 进入 code 文件夹下 **hupu** 的 scrapy 项目。
 
-    scrapy crawl hupu_p_c 
+        scrapy crawl hupu_p_c 
     
 这就是抓取帖子详细内容的爬虫。
 
