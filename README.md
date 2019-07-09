@@ -32,7 +32,41 @@
 * **hupu** 文件夹中为本次使用的 scrapy 项目文件，包括抓取用户信息，及详细帖子的代码；
 * plates_list.py 爬取各板块发帖列表的基础信息；
 * pyecharts_hupu.ipynb jupyter notebook 文件包括 **hupu_html** 文件夹中文件的生成代码。
-## 一些建议
+## 一些代码说明及建议
+### 如何跑起来
+1. 在你想要放置本项目的文件夹下使用
+    git clone https://github.com/spiderbeg/hupu_data.git
+将本项目复制文件夹中。
+2. 首先运行爬虫代码 **plates_list.py**, 代码中的 classfy 表文件，我将以 json 序列化文件提供；板块信息抓取完毕，接下来根据标准选择自己需求范围的数据，本次项目需求是 抓取回帖 200 以上或浏览 5w 以上的帖子进行分析；代码如下：
+    import pymongo
+    def get_ready(ch='plates',dbname='hupu'):
+        '''数据库调用'''
+        global mycol, myclient,myhp
+        myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        mydb = myclient[dbname]
+        mycol = mydb[ch]
+        myhp = mydb['posts_list']
+    get_ready()
+    ss = mycol.find({})
+    reply = [0]
+    r,v = 0,0
+    for i,s in enumerate(ss): 
+        if int(s['reply'])>=200 or int(s['view'])>=50000:
+            s.pop('_id')
+            myhp.insert_one(s)
+3. 进入 code 文件夹下 **hupu** 的 scrapy 项目。
+    scrapy crawl hupu_p_c 
+这就是抓取帖子详细内容的爬虫。
+    scrapy crawl user
+这是抓取用户信息的代码。
+4. 绘图代码，放在 code 的 **pyecharts_hupu.ipynb**；
+这样整个项目就跑了起来。
+### 对于如何跑起来中有疑问的地方，这里回答
+* 导入json格式文件数据： mongoimport -d <数据库名称> -c <collection名称> --file <要导入的json文件名称>
+* 如何安装 git 见 <https://mp.weixin.qq.com/mp/appmsg/show?__biz=MjM5MDEyMDk4Mw==&appmsgid=10000361&itemidx=1&sign=f88b420f70c30c106697f54f00cf2a95>；
+* MongoDB 安装：<http://mongoing.com/archives/25650> ；使用：<https://juejin.im/post/5addbd0e518825671f2f62ee>;
+* 不熟悉 scrapy 的瞧一眼这里：<https://cuiqingcai.com/3472.html>;
+### 建议
 * 考虑绘制图表的交互性，推荐使用 pyecharts <https://pyecharts.org/>；
 ## 部分图片展示（更多图片见 hupu_html 及 hupu_pic 文件）
 * 虎扑各板块发帖占比图
