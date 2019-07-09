@@ -32,6 +32,7 @@
 * **hupu** 文件夹中为本次使用的 scrapy 项目文件，包括抓取用户信息，及详细帖子的代码；
 * plates_list.py 爬取各板块发帖列表的基础信息；
 * classify.json MongoDB 中表 classify 的数据；
+* jieba2.txt 和 stop2.txt 内容分词文件；
 * pyecharts_hupu.ipynb jupyter notebook 文件包括 **hupu_html** 文件夹中文件的生成代码。
 ## 一些代码说明及建议
 ### 如何跑起来
@@ -41,7 +42,7 @@
     
    将本项目复制文件夹中。
 
-2. 首先运行爬虫代码 **plates_list.py**, 代码中的 classfy 表文件，我将以 json 序列化文件提供；板块信息抓取完毕，接下来根据标准选择自己需求范围的数据，本次项目需求是 抓取回帖 200 以上或浏览 5w 以上的帖子进行分析；代码如下：
+2. 首先运行爬虫代码 **plates_list.py**, 代码中的 classfy 表文件，我将以 json 文件提供，可直接导入 MongoDB；板块信息抓取完毕，接下来根据标准选择自己需求范围的数据，本次项目需求是 抓取回帖 200 以上或浏览 5w 以上的帖子进行分析；获得抓取帖子的代码如下：
 
         import pymongo
         def get_ready(ch='plates',dbname='hupu'):
@@ -66,7 +67,7 @@
     
    这就是抓取帖子详细内容的爬虫。
 
-    scrapy crawl user
+        scrapy crawl user
     
    这是抓取用户信息的代码。
 4. 绘图代码，放在 code 的 **pyecharts_hupu.ipynb**；
@@ -76,6 +77,130 @@
 * 如何安装 git 见 <https://mp.weixin.qq.com/mp/appmsg/show?__biz=MjM5MDEyMDk4Mw==&appmsgid=10000361&itemidx=1&sign=f88b420f70c30c106697f54f00cf2a95>；
 * MongoDB 安装：<http://mongoing.com/archives/25650> ；使用：<https://juejin.im/post/5addbd0e518825671f2f62ee>;
 * 不熟悉 scrapy 的瞧一眼这里：<https://cuiqingcai.com/3472.html>;
+### 部分代码示例
+* 连接 MongoDB:
+
+        def get_ready(ch='reply_user',dbname='hupu'): # ch: 表名，dbname: 数据库名
+            '''数据库调用'''
+            global mycol, myclient,myhp
+            myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+            mydb = myclient[dbname]
+            mycol = mydb[ch]
+            myhp = mydb['posts_user']
+ 
+* scrapy 保存数据到数据库 piplines.py; 以下为官方示例<https://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/item-pipeline.html>，本项目已经配好请直接使用：
+
+        import pymongo
+
+        class MongoPipeline(object):
+
+            collection_name = 'scrapy_items' # 爬虫名
+
+            def __init__(self, mongo_uri, mongo_db): # 初始化参数
+                self.mongo_uri = mongo_uri
+                self.mongo_db = mongo_db
+
+            @classmethod
+            def from_crawler(cls, crawler):
+                return cls(
+                    mongo_uri=crawler.settings.get('MONGO_URI'),
+                    mongo_db=crawler.settings.get('MONGO_DATABASE', 'items')
+                )
+
+            def open_spider(self, spider): # 爬虫开启时调用
+                self.client = pymongo.MongoClient(self.mongo_uri)
+                self.db = self.client[self.mongo_db]
+
+            def close_spider(self, spider): # 爬虫关闭时调用
+                self.client.close()
+
+            def process_item(self, item, spider): # 每个item pipeline组件都需要调用该方法，这个方法必须返回一个具有数据的dict，或是 Item (或任
+                self.db[self.collection_name].insert(dict(item)) # 何继承类)对象， 或是抛出 DropItem 异常，被丢弃的item将不会被之后的
+                return item                                      # pipeline组件所处理。
+   
+* pyecharts 绘制饼图：
+
+        # 性别占比---------------------top 5w---------------------
+        from pyecharts import options as opts
+        from pyecharts.charts import Page, Pie
+        def pie_radius() -> Pie:
+            vl = [165067, 127661, 6171]
+            attr = ["保密", "男", "女"]
+            c = (
+                Pie()
+                .add(
+                    "",
+                    [list(z) for z in zip(attr, vl)],
+                    radius=["40%", "75%"],
+                )
+                .set_global_opts(
+                    title_opts=opts.TitleOpts(title="虎扑用户性别占比", subtitle='男：女 = 20.7：1' ),
+                    toolbox_opts=opts.ToolboxOpts(), # 数据展示
+                    legend_opts=opts.LegendOpts(
+                        orient="vertical", pos_top="15%", pos_left="2%"
+                    ),
+                )
+                .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
+                .render('C:\\Users\\yc\\Desktop\\user_sex_proportion.html')
+            )
+            return c
+        pie_radius()
+
+* 结巴分词，想了解更多的看这里官网地址<https://github.com/fxsjy/jieba>
+
+        import jieba.analyse
+        import jieba
+
+        # 数据生成---------------------------
+        jieba.load_userdict(r'C:\Users\yc\Desktop\jieba2.txt')
+        jieba.analyse.set_stop_words(r'C:\Users\yc\Desktop\stop2.txt') 
+        with open(r'C:\Users\yc\Desktop\hupu_post.txt', 'rb' ) as f: # 生成的发帖文本
+            sentence = f.read()
+        a = jieba.analyse.extract_tags(sentence, topK=200, withWeight=True) # sentence：内容，topK：返回分词的个数，withWeight：返回权重
+
+* 词云生成：
+
+        import jieba.analyse
+        from wordcloud import WordCloud, ImageColorGenerator
+        import matplotlib.pyplot as plt
+        import numpy as np
+        from scipy.misc import imread
+
+        b = {}
+        for i,j in a:
+            b[i] = j
+        print(i,j)
+
+        # wordcloud 部分设置
+        font_path = r'C:\Users\yc\Desktop\SIMFANG.ttf' # 字体 # wordcloud设置
+        back_coloring = imread(r'C:\Users\yc\Desktop\get.png')  # 设置背景图片
+
+
+        # 设置词云属性
+        wc = WordCloud(font_path=font_path,  # 设置字体
+                       background_color="white", max_words=2000, mask=back_coloring,
+                       max_font_size=100, random_state=4, width=1000, height=860, margin=2,
+        #                contour_width=1, contour_color='black',
+                       )
+        # 根据频率生成词云
+        wc.generate_from_frequencies(b)
+        # create coloring from image
+        image_colors_default = ImageColorGenerator(back_coloring)
+
+        # 显示图片
+        plt.figure()
+        # plt.imshow(wc.recolor(color_func=image_colors_default), interpolation="bilinear")
+        plt.imshow(wc,interpolation="bilinear")
+        plt.axis("off")
+        plt.show()
+        wc.to_file(r'C:\Users\yc\Desktop\get_to1.jpg') # 保存文件
+
+
+### pyecharts_hupu.ipynb 中出现的 MongoDB 表名解释
+* classify 虎扑板块分类信息，在 **code** 文件夹下提供 classify.json MongoDB 中表 classify 的数据；
+* plates 抓取到的板块贴子信息，包括帖子名、发布时间、浏览、回复数等；
+* posts_detail 帖子的详细信息，包括帖子内容及回帖内容等信息；
+* posts_user 和 reply_user 根据需求抓取的帖子中的用户信息。
 ### 建议
 * 考虑绘制图表的交互性，推荐使用 pyecharts <https://pyecharts.org/>；
 ## 部分图片展示（更多图片见 hupu_html 及 hupu_pic 文件）
