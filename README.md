@@ -31,6 +31,7 @@
 ### code
 * **hupu** 文件夹中为本次使用的 scrapy 项目文件，包括抓取用户信息，及详细帖子的代码；
 * plates_list.py 爬取各板块发帖列表的基础信息；
+* classify.json MongoDB 中表 classify 的数据；
 * pyecharts_hupu.ipynb jupyter notebook 文件包括 **hupu_html** 文件夹中文件的生成代码。
 ## 一些代码说明及建议
 ### 如何跑起来
@@ -38,7 +39,7 @@
 
         git clone https://github.com/spiderbeg/hupu_data.git
     
-将本项目复制文件夹中。
+   将本项目复制文件夹中。
 
 2. 首先运行爬虫代码 **plates_list.py**, 代码中的 classfy 表文件，我将以 json 序列化文件提供；板块信息抓取完毕，接下来根据标准选择自己需求范围的数据，本次项目需求是 抓取回帖 200 以上或浏览 5w 以上的帖子进行分析；代码如下：
 
@@ -63,11 +64,11 @@
 
         scrapy crawl hupu_p_c 
     
-这就是抓取帖子详细内容的爬虫。
+   这就是抓取帖子详细内容的爬虫。
 
     scrapy crawl user
     
-这是抓取用户信息的代码。
+   这是抓取用户信息的代码。
 4. 绘图代码，放在 code 的 **pyecharts_hupu.ipynb**；
 这样整个项目就跑了起来。
 ### 对于如何跑起来中有疑问的地方，这里回答
