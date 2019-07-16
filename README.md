@@ -33,7 +33,7 @@
 * plates_list.py 爬取各板块发帖列表的基础信息；
 * classify.json MongoDB 中表 classify 的数据；
 * jieba2.txt 和 stop2.txt 内容分词文件；
-* pyecharts_hupu.ipynb jupyter notebook 文件包括 **hupu_html** 文件夹中文件的生成代码。
+* pyecharts_hupu.ipynb jupyter notebook 文件包括 **hupu_html** 文件夹中文件的生成代码一个 html 生成单张的图; hupu_pyecharts.ipynb 一个 html 文件生成多张图, hupu_html 文件中配置的为 hupu_pyecharts.ipynb 的实现。
 ## 一些代码说明及建议
 ### 如何跑起来
 1. 在你想要放置本项目的文件夹下使用
