@@ -202,8 +202,9 @@
 * posts_detail 帖子的详细信息，包括帖子内容及回帖内容等信息；
 * posts_user 和 reply_user 根据需求抓取的帖子中的用户信息。
 ### 建议
-* 为了方便大家观看 **hupu_html** 中的效果,所需的 js 文件,也放置在文件夹中,还保持 hupu_html 文件夹完整,以便查看效果. 
+* 为了方便大家观看 **hupu_html** 中的效果,所需的 js 文件,也放置在文件夹中,还保持 hupu_html 文件夹完整,以便查看效果;
 * 考虑绘制图表的交互性，推荐使用 pyecharts <https://pyecharts.org/>；
+* 项目中涉及路径的地方需修改为自己需要放置的路径.
 ## 部分图片展示（更多图片见 hupu_html 及 hupu_pic 文件）
 * 虎扑各板块发帖占比图
 ![publish](hupu_pic/虎扑板块占比.png)<br>
