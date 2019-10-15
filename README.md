@@ -222,4 +222,5 @@
 * 虎扑回帖词云
 ![publish](hupu_pic/post_reply.jpg)<br>
 * 更多实用而有趣的分析案例请关注：*Crossin的编程教室*<br>
+<img src="Crossin的编程教室.jpg" alt="Crossin的编程教室.jpg" style="height: 200px; width: 200px;">
 ![Crossin的编程教室](Crossin的编程教室.jpg)<br>
