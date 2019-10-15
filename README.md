@@ -1,4 +1,6 @@
 # 2019年3月-6月虎扑发帖数据分析
+## 动态效果展示
+* 动态图表演示地址：<https://htmlpreview.github.io/?https://raw.githubusercontent.com/spiderbeg/hupu_data/master/hupu_html/one_piece_plates.html> （第一次加载时可能有点慢）
 ## 项目内容
 * 抓取虎扑2019年**3月16日至6月23日**帖子标题、回帖数、浏览数，发布时间；并选取 **top 4.4w** 帖子抓取**亮了的回帖内容**；及相关的**用户信息**，包括所在地、性别、等级 、注册时间、在线时长、声望、回帖数、主题数；
 * 绘制图像包括：
